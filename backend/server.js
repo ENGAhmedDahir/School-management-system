@@ -11,6 +11,9 @@ import schuleRouter from './routes/Schedule.js';
 import emailRouter from './routes/Contact.js';
 import ExamRouter from './routes/Exams.js';
 import ExamResultRouter from './routes/ExamResult.js';
+import path from  'path';
+
+const __dirname = path.resolve();
 
 const app = express();
 const PORT = 900;
@@ -27,6 +30,10 @@ app.use('/api/email', emailRouter);
 app.use('/api/exam',ExamRouter)
 app.use('/api/exam-result', ExamResultRouter); 
 
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
+app.get('*', (req, res)=>{
+    res.sendFile(path.join(__dirname, '/frontend/dist/index.html'));
+})
 connectDB()
 app.listen(PORT,()=>{
 console.log(`listening on ${PORT}`);
